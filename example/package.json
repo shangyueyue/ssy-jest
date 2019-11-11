@@ -4,15 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "ssy-template": "ice-generate -d src/app/pages"
+    "ice-generate": "ice-generate -d src/app/pages"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {},
-  "devDependencies": {
-    "eslint": "^6.6.0",
-    "eslint-config-airbnb-base": "^14.0.0",
-    "eslint-plugin-import": "^2.18.2"
-  }
+  "devDependencies": {}
 }
