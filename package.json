@@ -1,16 +1,19 @@
 {
   "name": "ice-generate",
   "version": "1.0.0",
-  "description": "just for create pages",
-  "author": "shangyy",
+  "description": "just for ice ui generate",
+  "author": "shangyueyue",
   "license": "MIT",
-  "repository": "shangyueyue/ssy-create-page",
   "bin": {
     "ice-generate": "bin/index.js"
   },
-  "main": "dist/index.js",
-  "module": "dist/index.es.js",
-  "jsnext:main": "dist/index.es.js",
+  "main": "bin/index.js",
+  "homepage": "https://github.com/shangyueyue/ice-generate",
+  "repository": "github:shangyueyue/ice-generate",
+  "bugs": "https://github.com/shangyueyue/ice-generate/issues",
+  "keywords": [
+    "ice-generate"
+  ],
   "engines": {
     "node": ">=8",
     "npm": ">=5"
