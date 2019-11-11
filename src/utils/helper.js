@@ -1,11 +1,13 @@
+const chalk = require('chalk');
 const fs = require('fs');
 const path = require('path');
 const ejs = require('ejs');
-const colors = require('colors/safe');
 
+const { log } = console;
 // 递归创建目录 同步方法
 // eslint-disable-next-line consistent-return
 function mkdirsSync(dirname) {
+  // console.log(dirname);
   if (fs.existsSync(dirname)) {
     return true;
   } if (mkdirsSync(path.dirname(dirname))) {
@@ -13,11 +15,9 @@ function mkdirsSync(dirname) {
     return true;
   }
 }
-
-function renderFile(templateFile, { pageName }) {
+function renderejsTemplate(templateFile, options) {
   const p = new Promise((resolve, reject) => {
-    const cName = pageName[0].toUpperCase() + pageName.slice(1);
-    ejs.renderFile(templateFile, { cName }, (err, data) => {
+    ejs.renderFile(templateFile, options, (err, data) => {
       if (err) {
         reject(err);
       } else {
@@ -28,27 +28,21 @@ function renderFile(templateFile, { pageName }) {
   return p;
 }
 
-async function createTemplate(templateFile, outputFile, options) {
+async function createFileByTemplate(templateFile, outputFile, options) {
   try {
-    const datas = await renderFile(templateFile, options);
+    const datas = await renderejsTemplate(templateFile, options);
     const dirname = path.dirname(outputFile);
     // 创建目录
     mkdirsSync(dirname);
-    fs.writeFile(outputFile, datas, (err) => {
-      if (err) {
-        console.log(colors.red(err));
-      } else {
-        console.log(colors.green(`${path.basename(outputFile)} create success!`));
-      }
-    });
+    fs.writeFileSync(outputFile, datas, 'utf-8');
+    log(chalk.green(` create success: ${path.relative(process.cwd(), outputFile)}`));
   } catch (error) {
-    console.log(colors.red(error));
+    log(chalk.red(error.message));
   }
 }
 
 module.exports = {
   mkdirsSync,
-  renderFile,
-  createTemplate,
-
+  renderejsTemplate,
+  createFileByTemplate,
 };

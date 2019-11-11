@@ -1,60 +1,78 @@
+
+const assert = require('assert');
+const chalk = require('chalk');
 const fs = require('fs');
 const path = require('path');
+
 const program = require('commander');
 const inquirer = require('inquirer');
-const colors = require('colors/safe');
+
+
 const pkg = require('../package.json');
-const main = require('./main');
+// const main = require('./main');
+
+const { log } = console;
 
 program
   .version(pkg.version, '-v, --version')
   .option('-d --dirname <value>')
   .parse(process.argv);
 
-if (!program.dirname) {
-  console.log(colors.red('请通过 -d 指定输出文件目录'));
-  process.exit();
-}
+assert(program.dirname, chalk.red('请通过 -d 指定输出文件目录'));
 
 const questions = [
   {
     type: 'input',
     name: 'moduleName',
-    message: 'module name:',
+    message: '请输入module name:',
   },
   {
     type: 'input',
     name: 'pageName',
-    message: 'page name:',
+    message: '请输入page name:',
+    filter(val) {
+      return val.replace(/pages?/i, '');
+    },
+  },
+  {
+    type: 'list',
+    message: '请选择模板template',
+    name: 'template',
+    default: 'Table',
+    choices: [
+      'Table',
+      'panel',
+    ],
   },
 ];
+
 inquirer
   .prompt(questions)
-  .then((answers) => {
-    if (!answers.moduleName) {
-      throw new Error('没有输入moduleName');
+  .then((answers = {}) => {
+    const { moduleName, pageName, template } = answers;
+    assert(moduleName, chalk.red('没有输入module name'));
+    assert(pageName, chalk.red('没有输入page name'));
+    const outputPath = path.join(process.cwd(), program.dirname, moduleName, pageName);
+    assert(!fs.existsSync(outputPath), chalk.red('目录已经存在'));
+    const generatercFile = `${process.cwd()}/generaterc.js`;
+    assert(fs.existsSync(generatercFile), chalk.red('需要在根目录配置generaterc文件'));
+    const generatercFileData = require(generatercFile); // eslint-disable-line
+    if (!generatercFileData || !generatercFileData.data || !generatercFileData.data.data) {
+      log(chalk.red('generaterc 配置不正确'));
+      return;
     }
-    if (!answers.pageName) {
-      throw new Error('没有输入pageName');
+    const options = {
+      ...answers,
+      dirname: program.dirname,
+      outputPath,
+      generateData: generatercFileData.data.data[0],
+    };
+    try {
+      require(`./commands/${template}`).init(options); // eslint-disable-line
+    } catch (err) {
+      log(chalk.red(err.message));
     }
-    // 判断dirname是否存在;
-    // eslint-disable-next-line no-underscore-dangle
-    const _pageName = answers.pageName.replace(/pages?/i, '');
-    const outputPath = path.join(process.cwd(), program.dirname, answers.moduleName, _pageName);
-    if (fs.existsSync(outputPath)) {
-      throw new Error('目录已经存在');
-    }
-    // 判断模板是否存在
-    const templatedir = './tableTemplate';
-    const templatePath = path.resolve(__dirname, './template', templatedir);
-    if (!fs.existsSync(templatePath)) {
-      throw new Error('tempalte 不存在');
-    }
-    // 调用main
-    main({
-      moduleName: answers.moduleName, pageName: _pageName, outputPath, templatePath,
-    });
   }).catch((err) => {
-    console.log(colors.red(err.message));
+    log(chalk.red(err.message));
     process.exit();
   });

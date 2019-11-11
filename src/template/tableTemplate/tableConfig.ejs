@@ -1,0 +1,18 @@
+
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
+
+function T(id) {
+  return (<FormattedMessage id={id} />);
+}
+
+export default function tableconfigfn() {
+  return [<%for(var i=0;i<tableConfigData.length;i++){%>
+          {
+            title: T('<%=tableConfigData[i].title%>'),
+            dataIndex: '<%=tableConfigData[i].dataIndex%>',
+            key: '<%=tableConfigData[i].key%>',
+            width: 120,
+          },<%}%>
+  ];
+}

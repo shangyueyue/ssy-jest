@@ -12,5 +12,7 @@
   "prettier.trailingComma": "es5",
   "prettier.bracketSpacing": true,
   "prettier.jsxBracketSameLine": false,
-  "prettier.arrowParens": "avoid"
+  "prettier.arrowParens": "avoid",
+  "typescript.validate.enable": false,
+  "javascript.validate.enable": false
 }
