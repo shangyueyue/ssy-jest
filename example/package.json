@@ -9,6 +9,8 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {},
+  "dependencies": {
+    "ice-generate": "^1.0.0"
+  },
   "devDependencies": {}
 }

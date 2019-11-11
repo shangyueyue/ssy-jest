@@ -45,9 +45,6 @@
     "lint-staged": "^8.1.0",
     "prettier": "^1.17.0"
   },
-  "files": [
-    "bin"
-  ],
   "lint-staged": {
     "*.{js,jsx}": [
       "npm run lint",
