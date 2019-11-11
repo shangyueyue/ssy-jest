@@ -12,7 +12,7 @@ import './styles.scss';
 
 const { Row, Col } = Grid;
 
-class ListPage extends React.Component {
+class EditlistPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -118,4 +118,4 @@ class ListPage extends React.Component {
     }
 }
 
-export default ListPage;
+export default EditlistPage;
