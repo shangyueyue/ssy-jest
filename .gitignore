@@ -8,6 +8,7 @@
 # production
 /dist
 /example/node_modules
+/example/src
 
 # misc
 .DS_Store
