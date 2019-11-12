@@ -10,7 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "ice-generate": "^1.0.0"
+    "ice-generate": "^1.0.1"
   },
   "devDependencies": {}
 }
