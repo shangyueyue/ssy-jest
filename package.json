@@ -20,7 +20,8 @@
   },
   "scripts": {
     "lint": "eslint --ext .js bin --fix",
-    "prettier": "prettier --write bin/**/*.js"
+    "prettier": "prettier --write bin/**/*.js",
+    "commit": "git-cz"
   },
   "dependencies": {
     "chalk": "^3.0.0",
@@ -30,7 +31,10 @@
     "inquirer": "^7.0.0"
   },
   "devDependencies": {
+    "@commitlint/cli": "^8.2.0",
+    "@commitlint/config-conventional": "^8.2.0",
     "babel-eslint": "^10.0.1",
+    "cz-conventional-changelog": "^3.0.2",
     "eslint": "^6.6.0",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-config-airbnb-base": "^14.0.0",
@@ -47,13 +51,18 @@
   },
   "lint-staged": {
     "*.{js,jsx}": [
-      "npm run lint",
+      "eslint src --ext .js --fix",
       "git add"
     ]
   },
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
+    },
+    "config": {
+      "commitizen": {
+        "path": "node_modules/cz-conventional-changelog"
+      }
     }
   }
 }
