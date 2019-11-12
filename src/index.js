@@ -41,7 +41,7 @@ const questions = [
     default: 'Table',
     choices: [
       'Table',
-      'panel',
+      'Panel',
     ],
   },
 ];
@@ -57,7 +57,7 @@ inquirer
     const generatercFile = `${process.cwd()}/generaterc.js`;
     assert(fs.existsSync(generatercFile), chalk.red('需要在根目录配置generaterc文件'));
     const generatercFileData = require(generatercFile); // eslint-disable-line
-    if (!generatercFileData || !generatercFileData.data || !generatercFileData.data.data) {
+    if (!generatercFileData || !generatercFileData.data) {
       log(chalk.red('generaterc 配置不正确'));
       return;
     }
@@ -65,10 +65,10 @@ inquirer
       ...answers,
       dirname: program.dirname,
       outputPath,
-      generateData: generatercFileData.data.data[0],
+      generateData: generatercFileData.data,
     };
     try {
-      require(`./commands/${template}`).init(options); // eslint-disable-line
+      require(`./commands/${template}`).apply(options); // eslint-disable-line
     } catch (err) {
       log(chalk.red(err.message));
     }

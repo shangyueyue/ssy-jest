@@ -7,26 +7,18 @@ const { createFileByTemplate, mkdirsSync } = require('../../utils/helper');
 
 const { log } = console;
 
-class TableFactory {
+class PanelFactory {
   constructor() {
     this.options = {};
   }
 
   apply(options) {
     const prefix = `app_${options.moduleName}_${options.pageName}_`;
-    const templateDir = path.join(__dirname, '../../template/tableTemplate');
-    if (!options.generateData.data || !Array.isArray(options.generateData.data)) {
-      log(chalk.red('generaterc 配置不正确'));
-      return;
-    }
-    const generateData = options.generateData.data[0];
-
-    this.options = {
-      ...options, generateData, prefix, templateDir,
-    };
+    const templateDir = path.join(__dirname, '../../template/panelTemplate');
+    this.options = { ...options, prefix, templateDir };
     this.copyTemplateFile();
-    this.generateTablePage();
-    this.generateTableConfig();
+    this.generatePanelPage();
+    this.generatePanelConfig();
     this.generateLacaleConfig();
   }
 
@@ -37,7 +29,12 @@ class TableFactory {
     return Object.keys(generateData).reduce((obj, key) => {
       const $key = prefix + key;
       // eslint-disable-next-line no-param-reassign
-      obj[$key] = generateData[key];
+      obj[$key] = key;
+      Object.keys(generateData[key]).forEach((subkey) => {
+        const id = `${prefix + key}_${subkey}`;
+        // eslint-disable-next-line no-param-reassign
+        obj[id] = generateData[key][subkey];
+      });
       return obj;
     }, {});
   }
@@ -56,7 +53,7 @@ class TableFactory {
     });
   }
 
-  generateTablePage() {
+  generatePanelPage() {
     const { outputPath, pageName, templateDir } = this.options;
     const templateFile = path.join(templateDir, 'index.ejs');
     const outputFile = path.join(outputPath, 'index.js');
@@ -64,23 +61,26 @@ class TableFactory {
     createFileByTemplate(templateFile, outputFile, { cName });
   }
 
-  generateTableConfig() {
+  generatePanelConfig() {
     const {
       generateData, prefix, outputPath, templateDir,
     } = this.options;
-    const tableConfigData = Object.keys(generateData).map((key) => ({
-      title: prefix + key,
-      dataIndex: key,
-      key,
-      width: 120,
+
+    const panelConfigData = Object.keys(generateData).map((key) => ({
+      header: prefix + key,
+      model: key,
+      body: Object.keys(generateData).map((subKey) => ({
+        key: subKey,
+        label: `${prefix + key}_${subKey}`,
+        value: subKey,
+      })),
     }));
-    const templateFile = path.join(templateDir, 'tableConfig.ejs');
-    const outputFile = path.join(outputPath, 'tableConfig.js');
-    createFileByTemplate(templateFile, outputFile, { tableConfigData });
+    const templateFile = path.join(templateDir, 'panelConfig.ejs');
+    const outputFile = path.join(outputPath, 'panelConfig.js');
+    createFileByTemplate(templateFile, outputFile, { panelConfigData });
   }
 
   generateLacaleConfig() {
-    // const localesData = this.getLocalesData();
     const {
       dirname, moduleName, pageName,
     } = this.options;
@@ -94,4 +94,4 @@ class TableFactory {
   }
 }
 
-module.exports = new TableFactory();
+module.exports = new PanelFactory();
