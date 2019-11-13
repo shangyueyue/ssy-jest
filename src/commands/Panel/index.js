@@ -69,7 +69,7 @@ class PanelFactory {
     const panelConfigData = Object.keys(generateData).map((key) => ({
       header: prefix + key,
       model: key,
-      body: Object.keys(generateData).map((subKey) => ({
+      body: Object.keys(generateData[key]).map((subKey) => ({
         key: subKey,
         label: `${prefix + key}_${subKey}`,
         value: subKey,

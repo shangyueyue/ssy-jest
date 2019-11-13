@@ -3,7 +3,7 @@ import IceContainer from '@icedesign/container';
 import IcePanel from '@icedesign/panel';
 import { Grid, Message } from '@alifd/next';
 import request from '../../../utils/request';
-import BasicInfoFn from './BaseInfoConfig';
+import panelConfigFn from './panelConfig';
 
 const { Row, Col } = Grid;
 
@@ -45,7 +45,7 @@ class <%=cName%> extends React.Component {
     return (
       <IceContainer>
         {
-          BasicInfoFn(this.state.dataSource).map((group, id) => {
+          panelConfigFn(this.state.dataSource).map((group) => {
             const { header, model, body = [] } = group || {};
             return (
             // eslint-disable-next-line react/no-array-index-key

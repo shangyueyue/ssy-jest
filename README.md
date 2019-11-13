@@ -18,7 +18,7 @@
 
 ```
 
-\$ npx ice-generate -d src/app/pages
+$ npx ice-generate -d src/app/pages
 
 or
 
