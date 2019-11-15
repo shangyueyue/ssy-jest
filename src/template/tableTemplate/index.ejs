@@ -88,10 +88,10 @@ class <%=cName%> extends React.Component {
                   </Row>
                   <Row>
                     <Col style={{ textAlign: 'center' }}>
-                      <Button htmlType="submit" style={{ marginRight: '20px' }}>
+                      <Button style={{ marginRight: '20px' }} onClick={() => formCore.reset()}>
                         <FormattedMessage id="app.common.bubbon.reset" />
                       </Button>
-                      <Button type="primary" onClick={() => formCore.reset()}>
+                      <Button type="primary" htmlType="submit">
                         <FormattedMessage id="app.common.bubbon.submit" />
                       </Button>
                     </Col>

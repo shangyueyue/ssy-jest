@@ -1,11 +1,11 @@
 .iceFieldRangePicker {
-  display: flex;
-  flex-wrap: wrap;
   [class*='ice-col-'] {
-    width: 16.66%; 
-    padding: 6px; 
+    .next-range-picker{
+      display: block;
+      width: 100%;
+    }
     .next-input {
-      width: 46% !important;
+      width: 47% !important;
     }
  }
 }

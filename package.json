@@ -21,7 +21,7 @@
   "scripts": {
     "lint": "eslint --ext .js bin --fix",
     "prettier": "prettier --write bin/**/*.js",
-    "commit": "git-cz"
+    "cz": "git-cz"
   },
   "dependencies": {
     "chalk": "^3.0.0",

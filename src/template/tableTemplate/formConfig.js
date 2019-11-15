@@ -1,5 +1,6 @@
+import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Select } from '@alifd/next';
+import { Input } from '@alifd/next';
 
 /**
  * 打开注释，做多语言配置即可
