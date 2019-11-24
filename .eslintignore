@@ -1,7 +1,5 @@
-src/**/*-test.js
-dist
-node_modules
-/src/template
-/example
+
+/node_modules
+
 
 
